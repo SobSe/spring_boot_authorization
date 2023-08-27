@@ -14,13 +14,13 @@ public class UserRepository {
 
     public UserRepository() {
         usersAuthorities = new ConcurrentHashMap<>();
-        usersAuthorities.put(new User("Sergey", "123")
+        usersAuthorities.put(new User("Sergey", "1234")
                 , Arrays.asList(Authorities.READ, Authorities.WRITE, Authorities.DELETE));
         usersAuthorities.put(new User("Alexey", "1234")
                 , Arrays.asList(Authorities.READ));
     }
 
-    public List<Authorities> getUserAuthorities(String user, String password) {
-        return usersAuthorities.get(new User(user, password));
+    public List<Authorities> getUserAuthorities(User user) {
+        return usersAuthorities.get(user);
     }
 }

@@ -3,6 +3,7 @@ package ru.sobse.spring_boot_authorization.service;
 import ru.sobse.spring_boot_authorization.exeption.InvalidCredentials;
 import ru.sobse.spring_boot_authorization.exeption.UnauthorizedUser;
 import org.springframework.stereotype.Service;
+import ru.sobse.spring_boot_authorization.model.User;
 import ru.sobse.spring_boot_authorization.repository.Authorities;
 import ru.sobse.spring_boot_authorization.repository.UserRepository;
 
@@ -16,13 +17,13 @@ public class AuthorizationService {
         this.userRepository = userRepository;
     }
 
-    public List<Authorities> getAuthorities(String user, String password) {
-        if (isEmpty(user) || isEmpty(password)) {
+    public List<Authorities> getAuthorities(User user) {
+        if (isEmpty(user.getName()) || isEmpty(user.getPassword())) {
             throw new InvalidCredentials("User name or password is empty");
         }
-        List<Authorities> userAuthorities = userRepository.getUserAuthorities(user, password);
+        List<Authorities> userAuthorities = userRepository.getUserAuthorities(user);
         if (isEmpty(userAuthorities)) {
-            throw new UnauthorizedUser("Unknown user " + user);
+            throw new UnauthorizedUser("Unknown user " + user.getName());
         }
         return userAuthorities;
     }
